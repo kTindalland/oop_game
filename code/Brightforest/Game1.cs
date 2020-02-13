@@ -49,7 +49,7 @@ namespace Brightforest
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _font = Content.Load<SpriteFont>("BLKCHCRY");
+            _font = Content.Load<SpriteFont>("BlackChancery");
 
             // TODO: use this.Content to load your game content here
         }
