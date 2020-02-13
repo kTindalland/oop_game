@@ -18,6 +18,7 @@ namespace Brightforest
         SpriteBatch _spriteBatch;
 
         private SpriteFont _font;
+        private Texture2D _buttonTexture;
 
         public Game1()
         {
@@ -50,6 +51,7 @@ namespace Brightforest
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _font = Content.Load<SpriteFont>("BlackChancery");
+            _buttonTexture = Content.Load<Texture2D>("WoodButton");
 
             // TODO: use this.Content to load your game content here
         }
@@ -88,7 +90,10 @@ namespace Brightforest
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
+            _spriteBatch.Draw(_buttonTexture, new Vector2(90, 95), Color.White);
             _spriteBatch.DrawString(_font, "Hello world", new Vector2(100, 100), Color.Black);
+
+            
             _spriteBatch.End();
             base.Draw(gameTime);
         }
