@@ -1,6 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using System.Linq;
+using Brightforest.Schema;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XML_Handling;
 
 namespace Brightforest
 {
@@ -9,12 +13,12 @@ namespace Brightforest
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        GraphicsDeviceManager _graphics;
+        SpriteBatch _spriteBatch;
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
@@ -28,6 +32,20 @@ namespace Brightforest
         {
             // TODO: Add your initialization logic here
 
+            var xml = new XML_Handler<Leaderboard>(@"C:\Users\kaiti\source\repos\oop_game\data\leaderboard.xml");
+
+            var lb = new Leaderboard();
+
+            lb.Scores.Add(new Score() {Name = "Kai", PlayerScore = 5000});
+            lb.Scores.Add(new Score() { Name = "Lincoln", PlayerScore = 7500 });
+
+            xml.Serialise(lb);
+
+
+            var lb2 = xml.Deserialise();
+
+            
+
             base.Initialize();
         }
 
@@ -38,7 +56,7 @@ namespace Brightforest
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }

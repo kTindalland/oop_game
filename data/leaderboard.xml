@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Leaderboard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Scores>
+    <Score>
+      <Name>Kai</Name>
+      <PlayerScore>5000</PlayerScore>
+    </Score>
+    <Score>
+      <Name>Lincoln</Name>
+      <PlayerScore>7500</PlayerScore>
+    </Score>
+  </Scores>
+</Leaderboard>
