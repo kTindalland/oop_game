@@ -17,6 +17,8 @@ namespace Brightforest
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
 
+        private SpriteFont _font;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -46,6 +48,8 @@ namespace Brightforest
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            _font = Content.Load<SpriteFont>("BLKCHCRY");
 
             // TODO: use this.Content to load your game content here
         }
@@ -83,7 +87,9 @@ namespace Brightforest
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            _spriteBatch.Begin();
+            _spriteBatch.DrawString(_font, "Hello world", new Vector2(100, 100), Color.Black);
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
     }
