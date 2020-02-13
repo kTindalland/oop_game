@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using Brightforest.Controls;
+using Brightforest.EventArgs;
 using Brightforest.Managers;
 using Brightforest.Schema;
 using Microsoft.Xna.Framework;
@@ -39,8 +40,8 @@ namespace Brightforest
         {
             // TODO: Add your initialization logic here
 
-            
 
+            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -57,8 +58,14 @@ namespace Brightforest
             _buttonTexture = Content.Load<Texture2D>("WoodButton");
 
             _myButton = new Button("Kai", new Vector2(100, 100), _buttonTexture, _font);
+            _myButton.OnClick += OnClick;
 
             // TODO: use this.Content to load your game content here
+        }
+
+        private void OnClick(object sender, OnClickEventArgs args)
+        {
+            Debug.WriteLine("Button Clicked!");
         }
 
         /// <summary>
@@ -81,6 +88,7 @@ namespace Brightforest
                 Exit();
 
             // TODO: Add your update logic here
+            _myButton.Update(Mouse.GetState(), Keyboard.GetState());
 
             base.Update(gameTime);
         }

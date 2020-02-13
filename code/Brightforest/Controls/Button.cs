@@ -20,9 +20,13 @@ namespace Brightforest.Controls
         private readonly SpriteFont _font;
         private readonly Vector2 _textPosition;
         private readonly Rectangle _buttonCollisionRectangle;
+        private bool _clickReady;
 
         public Button(string text, Vector2 position, Texture2D buttonSprite, SpriteFont font)
         {
+            // Initialise local variables
+            _clickReady = false;
+
             // Store local variables passed in
             _text = text;
             _position = position;
@@ -47,13 +51,21 @@ namespace Brightforest.Controls
 
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
-            // Set up mouse collision rectangle
-            var mouseCollisionRectangle = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
+            if (mouseState.LeftButton == ButtonState.Pressed) _clickReady = true;
 
-            if (mouseCollisionRectangle.Intersects(_buttonCollisionRectangle) && mouseState.LeftButton == ButtonState.Released)
+            if (mouseState.LeftButton == ButtonState.Released && _clickReady)
             {
-                // Collision occured, fire event
-                OnClick(this, new OnClickEventArgs());
+                // Set up mouse collision rectangle
+                var mouseCollisionRectangle = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
+
+                if (mouseCollisionRectangle.Intersects(_buttonCollisionRectangle))
+                {
+                    // Collision occured, fire event
+                    OnClick(this, new OnClickEventArgs());
+
+                    // Un-ready click
+                    _clickReady = false;
+                }
             }
         }
 
