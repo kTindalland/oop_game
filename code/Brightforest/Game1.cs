@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using Brightforest.Managers;
 using Brightforest.Schema;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -31,18 +32,6 @@ namespace Brightforest
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
-            var xml = new XML_Handler<Leaderboard>(@"C:\Users\kaiti\source\repos\oop_game\data\leaderboard.xml");
-
-            var lb = new Leaderboard();
-
-            lb.Scores.Add(new Score() {Name = "Kai", PlayerScore = 5000});
-            lb.Scores.Add(new Score() { Name = "Lincoln", PlayerScore = 7500 });
-
-            xml.Serialise(lb);
-
-
-            var lb2 = xml.Deserialise();
 
             
 

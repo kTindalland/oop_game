@@ -13,7 +13,7 @@ namespace Brightforest.Schema
         {
             Scores = new List<Score>();
         }
-
+        
         public List<Score> Scores { get; set; }
     }
 }
