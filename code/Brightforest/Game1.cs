@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using Brightforest.Controls;
 using Brightforest.Managers;
 using Brightforest.Schema;
 using Microsoft.Xna.Framework;
@@ -19,6 +20,8 @@ namespace Brightforest
 
         private SpriteFont _font;
         private Texture2D _buttonTexture;
+
+        private Button _myButton;
 
         public Game1()
         {
@@ -52,6 +55,8 @@ namespace Brightforest
 
             _font = Content.Load<SpriteFont>("BlackChancery");
             _buttonTexture = Content.Load<Texture2D>("WoodButton");
+
+            _myButton = new Button("Kai", new Vector2(100, 100), _buttonTexture, _font);
 
             // TODO: use this.Content to load your game content here
         }
@@ -90,10 +95,11 @@ namespace Brightforest
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.Draw(_buttonTexture, new Vector2(90, 95), Color.White);
-            _spriteBatch.DrawString(_font, "Hello world", new Vector2(100, 100), Color.Black);
+            //_spriteBatch.Draw(_buttonTexture, new Vector2(90, 95), Color.White);
+            //_spriteBatch.DrawString(_font, "Hello world", new Vector2(100, 100), Color.Black);
 
-            
+            _myButton.Draw(_spriteBatch);
+
             _spriteBatch.End();
             base.Draw(gameTime);
         }

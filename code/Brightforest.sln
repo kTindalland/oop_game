@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brightforest", "Brightfores
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XML_Handling", "XML_Handling\XML_Handling.csproj", "{5E1B521B-D427-4194-AF03-E70E93A4A5B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "Interfaces\Interfaces.csproj", "{8D8B25D1-6E4F-4A2C-8C56-0E33D6404F9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,14 @@ Global
 		{5E1B521B-D427-4194-AF03-E70E93A4A5B0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5E1B521B-D427-4194-AF03-E70E93A4A5B0}.Release|x86.ActiveCfg = Release|Any CPU
 		{5E1B521B-D427-4194-AF03-E70E93A4A5B0}.Release|x86.Build.0 = Release|Any CPU
+		{8D8B25D1-6E4F-4A2C-8C56-0E33D6404F9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D8B25D1-6E4F-4A2C-8C56-0E33D6404F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D8B25D1-6E4F-4A2C-8C56-0E33D6404F9B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8D8B25D1-6E4F-4A2C-8C56-0E33D6404F9B}.Debug|x86.Build.0 = Debug|Any CPU
+		{8D8B25D1-6E4F-4A2C-8C56-0E33D6404F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D8B25D1-6E4F-4A2C-8C56-0E33D6404F9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D8B25D1-6E4F-4A2C-8C56-0E33D6404F9B}.Release|x86.ActiveCfg = Release|Any CPU
+		{8D8B25D1-6E4F-4A2C-8C56-0E33D6404F9B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

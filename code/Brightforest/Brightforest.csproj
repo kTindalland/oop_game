@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controls\Button.cs" />
     <Compile Include="Enums\GameState.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Managers\LeaderboardManager.cs" />
@@ -64,6 +65,10 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{8d8b25d1-6e4f-4a2c-8c56-0e33d6404f9b}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XML_Handling\XML_Handling.csproj">
       <Project>{5e1b521b-d427-4194-af03-e70e93a4a5b0}</Project>
       <Name>XML_Handling</Name>
