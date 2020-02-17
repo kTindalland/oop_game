@@ -43,9 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventArguments\PostOfficeEventArgs.cs" />
     <Compile Include="Graphics\IDrawable.cs" />
     <Compile Include="Graphics\IUpdatable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ILetterbox.cs" />
+    <Compile Include="Services\IPostOfficeService.cs" />
+    <Compile Include="StateHandling\IState.cs" />
+    <Compile Include="StateHandling\IStateManager.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

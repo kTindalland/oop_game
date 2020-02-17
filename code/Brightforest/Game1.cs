@@ -2,8 +2,12 @@
 using System.Linq;
 using Brightforest.Controls;
 using Brightforest.EventArgs;
+using Brightforest.Factories;
 using Brightforest.Managers;
 using Brightforest.Schema;
+using Brightforest.Services;
+using Interfaces.EventArguments;
+using Interfaces.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -14,7 +18,7 @@ namespace Brightforest
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Game1 : Game, ILetterbox
     {
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
@@ -23,11 +27,35 @@ namespace Brightforest
         private Texture2D _buttonTexture;
 
         private Button _myButton;
+        private Button _my2Button;
+
+        private IPostOfficeService _postOffice;
+        private ButtonFactory _buttonFactory;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            _postOffice = new PostOfficeService();
+
+            _postOffice.RegisterClient(this, "TestAddress");
+            
+        }
+
+        public void LetterBox(string returnAddress, PostOfficeEventArgs args)
+        {
+            switch (args.MessageName)
+            {
+                case "TestMessage":
+                    Debug.Write("\n");
+                    foreach (var i in args.Data)
+                    {
+                        Debug.Write(i);
+                    }
+                    Debug.Write("\n");
+                    break;
+            }
         }
 
         /// <summary>
@@ -57,15 +85,37 @@ namespace Brightforest
             _font = Content.Load<SpriteFont>("BlackChancery");
             _buttonTexture = Content.Load<Texture2D>("WoodButton");
 
-            _myButton = new Button("Kai", new Vector2(100, 100), _buttonTexture, _font);
-            _myButton.OnClick += OnClick;
+            _buttonFactory = new ButtonFactory(_buttonTexture, _font, _postOffice);
+
+            //_myButton = new Button("Kai", new Vector2(100, 100), _buttonTexture, _font, new OnClickEventArgs() {Message = "Hello Kai!"});
+            //_myButton.OnClick += OnClick;
+
+            //_my2Button = new Button("Lincoln", new Vector2(300, 100), _buttonTexture, _font, new OnClickEventArgs() { Message = "Hello Lincoln!" });
+            //_my2Button.OnClick += OnClick;
+
+            var postArgs = new PostOfficeEventArgs()
+            {
+                SendAddress = "TestAddress",
+                MessageName = "TestMessage",
+                Data = new byte[] {1, 2, 3, 4}
+            };
+
+            var post2Args = new PostOfficeEventArgs()
+            {
+                SendAddress = "TestAddress",
+                MessageName = "TestMessage",
+                Data = new byte[] { 5, 6, 7, 8 }
+            };
+
+            _myButton = _buttonFactory.GenerateButton("Kai", 100, 100, postArgs);
+            _my2Button = _buttonFactory.GenerateButton("Lincoln", 300, 100, post2Args);
 
             // TODO: use this.Content to load your game content here
         }
 
         private void OnClick(object sender, OnClickEventArgs args)
         {
-            Debug.WriteLine("Button Clicked!");
+            Debug.WriteLine(args.Message);
         }
 
         /// <summary>
@@ -89,6 +139,7 @@ namespace Brightforest
 
             // TODO: Add your update logic here
             _myButton.Update(Mouse.GetState(), Keyboard.GetState());
+            _my2Button.Update(Mouse.GetState(), Keyboard.GetState());
 
             base.Update(gameTime);
         }
@@ -107,6 +158,7 @@ namespace Brightforest
             //_spriteBatch.DrawString(_font, "Hello world", new Vector2(100, 100), Color.Black);
 
             _myButton.Draw(_spriteBatch);
+            _my2Button.Draw(_spriteBatch);
 
             _spriteBatch.End();
             base.Draw(gameTime);
