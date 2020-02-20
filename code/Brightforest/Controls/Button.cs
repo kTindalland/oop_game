@@ -11,10 +11,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using IDrawable = Interfaces.Graphics.IDrawable;
+using IUpdateable = Interfaces.Graphics.IUpdateable;
 
 namespace Brightforest.Controls
 {
-    public class Button : IDrawable, IUpdatable, ILetterbox
+    public class Button : IDrawable, IUpdateable, ILetterbox
     {
         private readonly string _text;
         private readonly Vector2 _position;

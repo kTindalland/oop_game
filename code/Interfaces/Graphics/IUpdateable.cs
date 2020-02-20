@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Interfaces.Graphics
 {
-    public interface IUpdatable
+    public interface IUpdateable
     {
         void Update(MouseState mouseState, KeyboardState keyboardState);
     }
