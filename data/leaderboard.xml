@@ -9,5 +9,13 @@
       <Name>Lincoln</Name>
       <PlayerScore>7500</PlayerScore>
     </Score>
+    <Score>
+      <Name>Billy</Name>
+      <PlayerScore>250</PlayerScore>
+    </Score>
+    <Score>
+      <Name>Rob</Name>
+      <PlayerScore>10000</PlayerScore>
+    </Score>
   </Scores>
 </Leaderboard>

@@ -71,9 +71,13 @@ namespace Brightforest
             _buttonTexture = Content.Load<Texture2D>("WoodButton");
 
             var buttonFactory = new ButtonFactory(_buttonTexture, _font, _postOffice);
+            var textFactory = new TextFactory(_font);
+
+            var leaderboardManager = new LeaderboardManager();
 
             _stateManager.RegisterState(new MenuState(buttonFactory));
             _stateManager.RegisterState(new NameInputState(buttonFactory));
+            _stateManager.RegisterState(new LeaderboardState(buttonFactory, textFactory, leaderboardManager));
 
             _postOffice.RegisterClient((ILetterbox)_stateManager, "StateManager");
 
