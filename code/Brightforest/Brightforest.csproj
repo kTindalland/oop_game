@@ -48,13 +48,16 @@
     <Compile Include="Factories\ButtonFactory.cs" />
     <Compile Include="Factories\TextFactory.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Helpers\NameInputHelper.cs" />
     <Compile Include="Managers\LeaderboardManager.cs" />
+    <Compile Include="Managers\PlayerMetaDataManager.cs" />
     <Compile Include="Managers\StateManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schema\Leaderboard.cs" />
     <Compile Include="Schema\Score.cs" />
     <Compile Include="Services\PostOfficeService.cs" />
+    <Compile Include="States\ExitState.cs" />
     <Compile Include="States\LeaderboardState.cs" />
     <Compile Include="States\MenuState.cs" />
     <Compile Include="States\NameInputState.cs" />

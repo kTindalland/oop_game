@@ -9,7 +9,7 @@ namespace Interfaces.StateHandling
 {
     public interface IStateManager : IDrawable, IUpdateable
     {
-        IState GetActiveState();
-        void RegisterState(IState state);
+        IState GetActiveState(); // Returns the currently active state
+        void RegisterState(IState state); // Registers a state to the state manager
     }
 }

@@ -8,6 +8,7 @@ namespace Interfaces.EventArguments
 {
     public class PostOfficeEventArgs : EventArgs
     {
+        // Not strictly an interface but belongs here really.
         public PostOfficeEventArgs()
         {
             SendAddress = "";

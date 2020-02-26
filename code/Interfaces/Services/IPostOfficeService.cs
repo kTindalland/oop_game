@@ -9,8 +9,8 @@ namespace Interfaces.Services
 {
     public interface IPostOfficeService
     {
-        bool SendMail(string returnAddress, PostOfficeEventArgs args);
+        bool SendMail(string returnAddress, PostOfficeEventArgs args); // Send a letter to a specified letterbox
 
-        bool RegisterClient(ILetterbox client, string address);
+        bool RegisterClient(ILetterbox client, string address); // Register a letterbox to the post office
     }
 }

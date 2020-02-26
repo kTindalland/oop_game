@@ -9,6 +9,6 @@ namespace Interfaces.Services
 {
     public interface ILetterbox
     {
-        void LetterBox(string returnAddress, PostOfficeEventArgs args);
+        void LetterBox(string returnAddress, PostOfficeEventArgs args); // Able to accept incoming messages
     }
 }

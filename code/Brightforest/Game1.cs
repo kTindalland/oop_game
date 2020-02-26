@@ -67,20 +67,33 @@ namespace Brightforest
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Load textures and fonts
             _font = Content.Load<SpriteFont>("BlackChancery");
             _buttonTexture = Content.Load<Texture2D>("WoodButton");
 
+            // Create factories
             var buttonFactory = new ButtonFactory(_buttonTexture, _font, _postOffice);
             var textFactory = new TextFactory(_font);
 
+            // Create Managers
             var leaderboardManager = new LeaderboardManager();
+            var playerMetaDataManager = new PlayerMetaDataManager(_postOffice);
 
+            // Register states to the state manager
             _stateManager.RegisterState(new MenuState(buttonFactory));
-            _stateManager.RegisterState(new NameInputState(buttonFactory));
+
+            var nameInputState = new NameInputState(buttonFactory, textFactory, _postOffice,
+                GraphicsDevice.PresentationParameters.Bounds);
+            _stateManager.RegisterState(nameInputState);
             _stateManager.RegisterState(new LeaderboardState(buttonFactory, textFactory, leaderboardManager));
+            _stateManager.RegisterState(new ExitState(this));
 
+            // Register clients to the post office
             _postOffice.RegisterClient((ILetterbox)_stateManager, "StateManager");
+            _postOffice.RegisterClient((ILetterbox) playerMetaDataManager, playerMetaDataManager.LetterboxName);
+            _postOffice.RegisterClient((ILetterbox) nameInputState, nameInputState.StateRegisterName);
 
+            // Set the initial state to the menu
             _postOffice.SendMail("Null",
                 new PostOfficeEventArgs()
                 {
@@ -120,6 +133,7 @@ namespace Brightforest
             var mouseState = Mouse.GetState();
             var keyboardState = Keyboard.GetState();
 
+            // Update current state
             _stateManager.Update(mouseState, keyboardState);
 
             base.Update(gameTime);
@@ -135,13 +149,17 @@ namespace Brightforest
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            //_spriteBatch.Draw(_buttonTexture, new Vector2(90, 95), Color.White);
-            //_spriteBatch.DrawString(_font, "Hello world", new Vector2(100, 100), Color.Black);
-
+            
+            // Draw current state
             _stateManager.Draw(_spriteBatch);
 
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public void Quit()
+        {
+            this.Exit();
         }
     }
 }
