@@ -83,6 +83,15 @@ namespace Brightforest
             }
             upgradeBar.SetData(colorData);
 
+            var stone = new Texture2D(GraphicsDevice, 10, 10);
+            var stoneColors = new Color[100];
+            for (int i = 0; i < 100; i++)
+            {
+                stoneColors[i] = Color.Black;
+            }
+
+            stone.SetData(stoneColors);
+
             // Create factories
             var buttonFactory = new ButtonFactory(_buttonTexture, _font, _postOffice);
             var textFactory = new TextFactory(_font);
@@ -101,7 +110,7 @@ namespace Brightforest
             _stateManager.RegisterState(new LeaderboardState(buttonFactory, textFactory, leaderboardManager));
             _stateManager.RegisterState(new ExitState(this));
 
-            _stateManager.RegisterState(new PlayState(squirrelFactory, gateLevel, GraphicsDevice.PresentationParameters.Bounds, upgradeBar));
+            _stateManager.RegisterState(new PlayState(squirrelFactory, gateLevel, GraphicsDevice.PresentationParameters.Bounds, upgradeBar, stone));
 
             // Register clients to the post office
             _postOffice.RegisterClient((ILetterbox)_stateManager, "StateManager");

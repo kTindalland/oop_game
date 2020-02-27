@@ -57,6 +57,7 @@
     <Compile Include="Schema\Leaderboard.cs" />
     <Compile Include="Schema\Score.cs" />
     <Compile Include="Services\PostOfficeService.cs" />
+    <Compile Include="Sprites\Projectile.cs" />
     <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="Sprites\Squirrel.cs" />
     <Compile Include="Sprites\Structs\MoveData.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="States\MenuState.cs" />
     <Compile Include="States\NameInputState.cs" />
     <Compile Include="States\PlayState.cs" />
+    <Compile Include="Things\Archer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

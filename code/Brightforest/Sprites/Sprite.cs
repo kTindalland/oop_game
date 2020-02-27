@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Brightforest.Sprites.Structs;
@@ -17,6 +18,17 @@ namespace Brightforest.Sprites
         private MoveData _moveData;
         private Vector2 _position;
         private Texture2D _texture;
+
+        public bool IsMoving
+        {
+            get { return _moveData.IsMoving; }
+        }
+
+        public Vector2 Position
+        {
+            get { return _position; }
+            set { _position = value; }
+        }
 
         public int Speed
         {

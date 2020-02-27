@@ -11,19 +11,42 @@ namespace Brightforest.Sprites
 {
     public class Squirrel : Sprite
     {
+        private int _health;
+        private bool _alive;
+
+        public bool Alive
+        {
+            get { return _alive; }
+        }
+
         public Squirrel(Vector2 position, Texture2D sprite) : base(position, sprite)
         {
-            
+            _health = 10;
+            _alive = true;
+        }
+
+        public void InflictDamage(int amount)
+        {
+            _health -= amount;
+            _alive = _health > 0;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+            if (_alive)
+            {
+                base.Draw(spriteBatch);
+            }
+            
         }
 
         public override void Update(MouseState mouseState, KeyboardState keyboardState)
         {
-            base.Update(mouseState, keyboardState);
+            if (_alive)
+            {
+                base.Update(mouseState, keyboardState);
+            }
+            
         }
     }
 }
