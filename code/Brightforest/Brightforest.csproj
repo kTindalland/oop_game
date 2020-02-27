@@ -43,9 +43,9 @@
   <ItemGroup>
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\Text.cs" />
-    <Compile Include="Enums\GameState.cs" />
-    <Compile Include="EventArgs\OnClickEventArgs.cs" />
+    <Compile Include="Controls\UpgradesBar.cs" />
     <Compile Include="Factories\ButtonFactory.cs" />
+    <Compile Include="Factories\SquirrelFactory.cs" />
     <Compile Include="Factories\TextFactory.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Helpers\NameInputHelper.cs" />
@@ -57,10 +57,14 @@
     <Compile Include="Schema\Leaderboard.cs" />
     <Compile Include="Schema\Score.cs" />
     <Compile Include="Services\PostOfficeService.cs" />
+    <Compile Include="Sprites\Sprite.cs" />
+    <Compile Include="Sprites\Squirrel.cs" />
+    <Compile Include="Sprites\Structs\MoveData.cs" />
     <Compile Include="States\ExitState.cs" />
     <Compile Include="States\LeaderboardState.cs" />
     <Compile Include="States\MenuState.cs" />
     <Compile Include="States\NameInputState.cs" />
+    <Compile Include="States\PlayState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

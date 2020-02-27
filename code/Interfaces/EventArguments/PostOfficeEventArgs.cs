@@ -16,8 +16,8 @@ namespace Interfaces.EventArguments
             Data = new byte[0];
         }
 
-        public string SendAddress { get; set; }
-        public string MessageName { get; set; }
-        public byte[] Data { get; set; }
+        public string SendAddress { get; set; } // Where the letter goes
+        public string MessageName { get; set; } // The message it will invoke
+        public byte[] Data { get; set; } // The data carried along with it.
     }
 }

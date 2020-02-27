@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text;
 using Brightforest.Controls;
-using Brightforest.EventArgs;
 using Brightforest.Factories;
 using Brightforest.Managers;
 using Brightforest.Schema;
@@ -41,6 +40,8 @@ namespace Brightforest
             _postOffice = new PostOfficeService();
 
             _stateManager = new StateManager(_postOffice);
+
+            IsFixedTimeStep = true;
         }
 
         /// <summary>
@@ -70,10 +71,22 @@ namespace Brightforest
             // Load textures and fonts
             _font = Content.Load<SpriteFont>("BlackChancery");
             _buttonTexture = Content.Load<Texture2D>("WoodButton");
+            var squirrel1 = Content.Load<Texture2D>("squirrel1");
+            var gateLevel = Content.Load<Texture2D>("gate_level");
+
+            var upgradeBar = new Texture2D(GraphicsDevice, GraphicsDevice.PresentationParameters.Bounds.Width, 100);
+
+            var colorData = new Color[100 * GraphicsDevice.PresentationParameters.Bounds.Width];
+            for (int i = 0; i < 100 * GraphicsDevice.PresentationParameters.Bounds.Width; i++)
+            {
+                colorData[i] = Color.DarkSlateGray;
+            }
+            upgradeBar.SetData(colorData);
 
             // Create factories
             var buttonFactory = new ButtonFactory(_buttonTexture, _font, _postOffice);
             var textFactory = new TextFactory(_font);
+            var squirrelFactory = new SquirrelFactory(squirrel1);
 
             // Create Managers
             var leaderboardManager = new LeaderboardManager();
@@ -87,6 +100,8 @@ namespace Brightforest
             _stateManager.RegisterState(nameInputState);
             _stateManager.RegisterState(new LeaderboardState(buttonFactory, textFactory, leaderboardManager));
             _stateManager.RegisterState(new ExitState(this));
+
+            _stateManager.RegisterState(new PlayState(squirrelFactory, gateLevel, GraphicsDevice.PresentationParameters.Bounds, upgradeBar));
 
             // Register clients to the post office
             _postOffice.RegisterClient((ILetterbox)_stateManager, "StateManager");
@@ -103,11 +118,6 @@ namespace Brightforest
                 });
 
             // TODO: use this.Content to load your game content here
-        }
-
-        private void OnClick(object sender, OnClickEventArgs args)
-        {
-            Debug.WriteLine(args.Message);
         }
 
         /// <summary>
