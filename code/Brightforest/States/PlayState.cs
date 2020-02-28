@@ -31,6 +31,7 @@ namespace Brightforest.States
         private readonly MoneyManager _moneyManager;
         private Texture2D _background;
         private readonly Texture2D _stone;
+        private readonly Gate _gate;
         private readonly Rectangle _bounds;
         private UpgradesBar _upgradesBar;
 
@@ -40,6 +41,7 @@ namespace Brightforest.States
         private Text _damageLevel;
         private Text _money;
         private Text _waveText;
+        private Text _gateHealth;
 
         private List<Squirrel> _enemies;
         private int _wave;
@@ -52,7 +54,7 @@ namespace Brightforest.States
         private Button _quitButton;
 
 
-        public PlayState(IPostOfficeService postOfficeService, SquirrelFactory squirrelFactory, ButtonFactory buttonFactory, TextFactory textFactory, StatsManager statsManager, MoneyManager moneyManager, Texture2D background, Rectangle bounds, Texture2D upgradebar, Texture2D stone)
+        public PlayState(IPostOfficeService postOfficeService, SquirrelFactory squirrelFactory, ButtonFactory buttonFactory, TextFactory textFactory, StatsManager statsManager, MoneyManager moneyManager, Texture2D background, Rectangle bounds, Texture2D upgradebar, Texture2D stone, Gate gate)
         {
             _inWave = true;
             _wave = 0;
@@ -69,6 +71,7 @@ namespace Brightforest.States
             _moneyManager = moneyManager;
             _background = background;
             _stone = stone;
+            _gate = gate;
             _bounds = new Rectangle(bounds.X, bounds.Y, bounds.Width, bounds.Height - 100);
 
             _upgradesBar = new UpgradesBar(new Vector2(0, _bounds.Height), new Rectangle(0,0, _bounds.Width, 100), upgradebar);
@@ -112,14 +115,7 @@ namespace Brightforest.States
 
             #endregion
 
-            var quitArgs = new PostOfficeEventArgs()
-            {
-                SendAddress = "StateManager",
-                MessageName = "ChangeState",
-                Data = Encoding.ASCII.GetBytes("Menu")
-            };
-
-            _quitButton = buttonFactory.GenerateButton("Quit", 600, 20, quitArgs);
+            
             #region Text
 
             _amountOfArchers =
@@ -134,11 +130,20 @@ namespace Brightforest.States
 
             _waveText = _textFactory.GenerateText($"Wave {_wave}", 20, 70);
 
+            _gateHealth = _textFactory.GenerateText($"Gate Health: {_gate.Health}", 20, 120);
+
             #endregion
 
             #region Quit Button
 
+            var quitArgs = new PostOfficeEventArgs()
+            {
+                SendAddress = "StateManager",
+                MessageName = "ChangeState",
+                Data = Encoding.ASCII.GetBytes("Menu")
+            };
 
+            _quitButton = buttonFactory.GenerateButton("Quit", 600, 20, quitArgs);
 
             #endregion
         }
@@ -183,6 +188,7 @@ namespace Brightforest.States
             _damageLevel.Draw(spriteBatch);
             _money.Draw(spriteBatch);
             _waveText.Draw(spriteBatch);
+            _gateHealth.Draw(spriteBatch);
         }
 
         public bool Initialise()
@@ -203,6 +209,8 @@ namespace Brightforest.States
             _enemies = new List<Squirrel>();
 
             _moneyManager.Reset();
+
+            _gate.Reset();
 
             return true;
         }
@@ -230,6 +238,7 @@ namespace Brightforest.States
             _damageLevel.DisplayText = $"{_statsManager.DamageModifier}x Damage";
             _money.DisplayText = $"Current Funds: M{_moneyManager.Money}";
             _waveText.DisplayText = $"Wave {_wave}";
+            _gateHealth.DisplayText = $"Gate Health: {_gate.Health}";
 
             foreach (var upgradeButton in _upgradeButtons)
             {
@@ -267,6 +276,14 @@ namespace Brightforest.States
                 };
                 _postOfficeService.SendMail(this.LetterboxName, newMoneyArgs);
 
+                // Add points 10 points per squirrel
+                var newScoreArgs = new PostOfficeEventArgs()
+                {
+                    SendAddress = "PlayerMetaData",
+                    MessageName = "AddScore",
+                    Data = BitConverter.GetBytes(10 * deadSquirrels.Count)
+                };
+                _postOfficeService.SendMail(this.LetterboxName, newScoreArgs);
                 
                 foreach (var deadSquirrel in deadSquirrels)
                 {
@@ -299,6 +316,17 @@ namespace Brightforest.States
                 _wave++;
                 _inWave = false;
                 GenerateEnemies();
+            }
+
+            if (_gate.Health <= 0)
+            {
+                var changeStateArgs = new PostOfficeEventArgs()
+                {
+                    SendAddress = "StateManager",
+                    MessageName = "ChangeState",
+                    Data = Encoding.ASCII.GetBytes("Lose")
+                };
+                _postOfficeService.SendMail(this.LetterboxName, changeStateArgs);
             }
         }
 
@@ -351,9 +379,14 @@ namespace Brightforest.States
             {
                 case "AddArcher":
                     // Check money
+                    if (_moneyManager.Money >= 20)
+                    {
+                        // Add archer
+                        AddArcher();
 
-                    // Add archer
-                    AddArcher();
+                        _moneyManager.Money -= 20;
+                    }
+                    
 
                     break;
             }

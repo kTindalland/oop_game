@@ -17,5 +17,17 @@
       <Name>Rob</Name>
       <PlayerScore>10000</PlayerScore>
     </Score>
+    <Score>
+      <Name>TEST</Name>
+      <PlayerScore>0</PlayerScore>
+    </Score>
+    <Score>
+      <Name>My name is: T e s t </Name>
+      <PlayerScore>0</PlayerScore>
+    </Score>
+    <Score>
+      <Name>T e s t </Name>
+      <PlayerScore>0</PlayerScore>
+    </Score>
   </Scores>
 </Leaderboard>

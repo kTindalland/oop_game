@@ -54,7 +54,7 @@ namespace Brightforest.States
             {
                 SendAddress = "StateManager",
                 MessageName = "ChangeState",
-                Data = Encoding.ASCII.GetBytes("Play")
+                Data = Encoding.ASCII.GetBytes("FlavourText")
             };
 
             _buttons.Add(buttonFactory.GenerateButton("Play", 100, 100, playArgs));
@@ -115,7 +115,7 @@ namespace Brightforest.States
             {
                 SendAddress = "PlayerMetaData",
                 MessageName = "ChangeName",
-                Data = Encoding.ASCII.GetBytes(_nameHelper.GetName())
+                Data = Encoding.ASCII.GetBytes(FormatName(_nameHelper.GetName(), false))
             };
 
             // Start process to reset score to 0
@@ -145,10 +145,10 @@ namespace Brightforest.States
             _name.DisplayText = FormatName(_nameHelper.GetName());
         }
 
-        private string FormatName(string name)
+        private string FormatName(string name, bool addReplacement = true)
         {
 
-            var baseText = "My name is: ";
+            var baseText = "My name is: "; // Prefix
             var replacement = "_";
 
             // Actual length of inputted name
@@ -156,7 +156,8 @@ namespace Brightforest.States
 
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.Append(baseText);
+            if (addReplacement) stringBuilder.Append(baseText); // Add prefix if using replacements
+
 
             for (int i = 0; i < lengthOfName; i++)
             {
@@ -171,11 +172,16 @@ namespace Brightforest.States
                 
             }
 
-            // If there are spaces free
-            for (int i = 0; i < (_maxLen - lengthOfName); i++)
+            if (addReplacement)
             {
-                stringBuilder.Append($"{replacement} ");
+                // If there are spaces free
+                for (int i = 0; i < (_maxLen - lengthOfName); i++)
+                {
+                    stringBuilder.Append($"{replacement} ");
+                }
             }
+
+            
 
             return stringBuilder.ToString();
         }

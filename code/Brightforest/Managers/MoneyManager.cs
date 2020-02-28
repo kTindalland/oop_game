@@ -16,17 +16,18 @@ namespace Brightforest.Managers
 
         public MoneyManager(IPostOfficeService postOfficeService)
         {
-            _money = 0;
+            _money = 50;
         }
 
         public int Money
         {
             get { return _money; }
+            set { _money = value; }
         }
 
         public void Reset()
         {
-            _money = 0;
+            _money = 50;
         }
 
         public void LetterBox(string returnAddress, PostOfficeEventArgs args)

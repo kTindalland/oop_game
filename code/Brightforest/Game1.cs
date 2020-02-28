@@ -6,6 +6,7 @@ using Brightforest.Factories;
 using Brightforest.Managers;
 using Brightforest.Schema;
 using Brightforest.Services;
+using Brightforest.Sprites;
 using Brightforest.States;
 using Interfaces.EventArguments;
 using Interfaces.Services;
@@ -92,11 +93,15 @@ namespace Brightforest
 
             stone.SetData(stoneColors);
 
+            // Create Objects
+            var gate = new Gate();
+
             // Create factories
             var buttonFactory = new ButtonFactory(_buttonTexture, _font, _postOffice);
             var textFactory = new TextFactory(_font);
-            var squirrelFactory = new SquirrelFactory(squirrel1);
+            var squirrelFactory = new SquirrelFactory(squirrel1, gate);
 
+            
             // Create Managers
             var leaderboardManager = new LeaderboardManager();
             var playerMetaDataManager = new PlayerMetaDataManager(_postOffice);
@@ -114,9 +119,17 @@ namespace Brightforest
             _stateManager.RegisterState(new ExitState(this));
 
             var playState = new PlayState(_postOffice, squirrelFactory, buttonFactory, textFactory, statsManager, moneyManager, gateLevel,
-                GraphicsDevice.PresentationParameters.Bounds, upgradeBar, stone);
+                GraphicsDevice.PresentationParameters.Bounds, upgradeBar, stone, gate);
 
             _stateManager.RegisterState(playState);
+
+            var loseState = new LoseState(buttonFactory, textFactory, _postOffice, leaderboardManager);
+
+            _stateManager.RegisterState(loseState);
+
+            var flavourText = new FlavourTextState(buttonFactory, textFactory);
+            _stateManager.RegisterState(flavourText);
+
 
             // Register clients to the post office
             _postOffice.RegisterClient((ILetterbox)_stateManager, "StateManager");
@@ -125,6 +138,8 @@ namespace Brightforest
             _postOffice.RegisterClient((ILetterbox) statsManager, statsManager.LetterboxName);
             _postOffice.RegisterClient((ILetterbox) playState, playState.LetterboxName);
             _postOffice.RegisterClient((ILetterbox) moneyManager, moneyManager.LetterboxName);
+            _postOffice.RegisterClient((ILetterbox) gate, "Gate");
+            _postOffice.RegisterClient((ILetterbox) loseState, loseState.StateRegisterName);
 
             // Set the initial state to the menu
             _postOffice.SendMail("Null",

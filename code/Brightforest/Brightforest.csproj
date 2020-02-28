@@ -59,12 +59,15 @@
     <Compile Include="Schema\Leaderboard.cs" />
     <Compile Include="Schema\Score.cs" />
     <Compile Include="Services\PostOfficeService.cs" />
+    <Compile Include="Sprites\Gate.cs" />
     <Compile Include="Sprites\Projectile.cs" />
     <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="Sprites\Squirrel.cs" />
     <Compile Include="Sprites\Structs\MoveData.cs" />
     <Compile Include="States\ExitState.cs" />
+    <Compile Include="States\FlavourTextState.cs" />
     <Compile Include="States\LeaderboardState.cs" />
+    <Compile Include="States\LoseState.cs" />
     <Compile Include="States\MenuState.cs" />
     <Compile Include="States\NameInputState.cs" />
     <Compile Include="States\PlayState.cs" />
