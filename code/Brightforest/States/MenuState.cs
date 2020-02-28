@@ -16,8 +16,12 @@ namespace Brightforest.States
     {
         public string StateRegisterName { get; }
         private List<Button> _buttons;
+        private readonly TextFactory _textFactory;
 
-        public MenuState(ButtonFactory buttonFactory)
+        // Main title
+        private Text _title;
+
+        public MenuState(ButtonFactory buttonFactory, TextFactory textFactory)
         {
             StateRegisterName = "Menu";
 
@@ -54,6 +58,9 @@ namespace Brightforest.States
             };
 
             _buttons.Add( buttonFactory.GenerateButton("Exit", 100, 200, exitArgs) );
+            _textFactory = textFactory;
+
+            _title = _textFactory.GenerateText("Siege of Brightforest", 400, 100);
         }
 
         public bool Cleanup()
@@ -68,6 +75,9 @@ namespace Brightforest.States
             {
                 button.Draw(spriteBatch);
             }
+
+            // Draw title
+            _title.Draw(spriteBatch);
         }
 
         public bool Initialise()

@@ -110,7 +110,7 @@ namespace Brightforest
             var statsManager = new StatsManager(_postOffice, moneyManager);
 
             // Register states to the state manager
-            _stateManager.RegisterState(new MenuState(buttonFactory));
+            _stateManager.RegisterState(new MenuState(buttonFactory, textFactory));
 
             var nameInputState = new NameInputState(buttonFactory, textFactory, _postOffice,
                 GraphicsDevice.PresentationParameters.Bounds);

@@ -16,7 +16,7 @@ namespace Brightforest.Managers
 
         public LeaderboardManager()
         {
-            var filepath = @"C:\Users\kaiti\source\repos\oop_game\data\leaderboard.xml"; // TODO: MAKE FILEPATH RELATIVE
+            var filepath = @"leaderboard.xml";
 
             // Handle the xml stuff pls ty
             _xmlHandler = new XML_Handler<Leaderboard>(filepath);
