@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using Brightforest.Managers;
 using Brightforest.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,14 +18,16 @@ namespace Brightforest.Things
     {
         private readonly Vector2 _startPosition;
         private readonly Texture2D _projectileTexture;
+        private readonly StatsManager _statsManager;
         private bool _ready;
         private List<Projectile> _projectiles;
 
 
-        public Archer(Vector2 startPosition, Texture2D projectileTexture)
+        public Archer(Vector2 startPosition, Texture2D projectileTexture, StatsManager statsManager)
         {
             _startPosition = startPosition;
             _projectileTexture = projectileTexture;
+            _statsManager = statsManager;
             _ready = true;
             _projectiles = new List<Projectile>();
         }
@@ -39,7 +42,9 @@ namespace Brightforest.Things
                 _projectiles.Add(newProj);
 
                 Random r = new Random((int)DateTime.Now.Ticks);
-                Timer timer = new Timer(r.Next(500, 2000));
+
+                var lowerBound = _statsManager.RateOfFire - 500 < 0 ? 50 : _statsManager.RateOfFire - 500;
+                Timer timer = new Timer(r.Next(lowerBound, _statsManager.RateOfFire+500));
                 timer.Elapsed += OnTimer;
                 timer.Start();
 
@@ -65,7 +70,7 @@ namespace Brightforest.Things
                 if (!projectile.IsMoving)
                 {
                     Random r = new Random((int)DateTime.Now.Ticks);
-                    projectile.Enemy.InflictDamage(r.Next(3, 5));
+                    projectile.Enemy.InflictDamage(r.Next(3 * _statsManager.DamageModifier, 5 * _statsManager.DamageModifier));
                     spentProjectiles.Add(projectile);
                 }
             }

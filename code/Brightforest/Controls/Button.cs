@@ -27,6 +27,13 @@ namespace Brightforest.Controls
         private readonly PostOfficeEventArgs _args;
         private bool _clickReady;
 
+        private bool _canUpdate;
+
+        public bool CanUpdate
+        {
+            set { _canUpdate = value; }
+        }
+
         public int Width
         {
             get { return _buttonSprite.Width; }
@@ -54,6 +61,7 @@ namespace Brightforest.Controls
             _clickReady = false;
             _guid = Guid.NewGuid();
             _args = new PostOfficeEventArgs();
+            _canUpdate = true;
 
             // Store local variables passed in
             _text = text;
@@ -80,6 +88,7 @@ namespace Brightforest.Controls
             // Initialise local variables
             _clickReady = false;
             _guid = Guid.NewGuid();
+            _canUpdate = true;
 
             // Store local variables passed in
             _text = text;
@@ -104,34 +113,47 @@ namespace Brightforest.Controls
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_buttonSprite, _position, Color.White);
+            var tint = _canUpdate ? Color.White : Color.Gray;
+
+            spriteBatch.Draw(_buttonSprite, _position, tint);
             spriteBatch.DrawString(_font, _text, _textPosition, Color.Black);
         }
 
         public void LetterBox(string returnAddress, PostOfficeEventArgs args)
         {
+            switch (args.MessageName)
+            {
+                case "Disable":
+                    _canUpdate = false;
+                    break;
+            }
+
             return;
         }
 
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
-            // Set up mouse collision rectangle
-            var mouseCollisionRectangle = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
-
-            if (mouseState.LeftButton == ButtonState.Pressed && mouseCollisionRectangle.Intersects(_buttonCollisionRectangle)) _clickReady = true;
-
-
-            if (mouseState.LeftButton == ButtonState.Released && _clickReady)
+            if (_canUpdate)
             {
-                if (mouseCollisionRectangle.Intersects(_buttonCollisionRectangle))
-                {
-                    // Collision occured, send letter
-                    _postOffice.SendMail(_guid.ToString(), _args);
+                // Set up mouse collision rectangle
+                var mouseCollisionRectangle = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
 
-                    // Un-ready click
-                    _clickReady = false;
+                if (mouseState.LeftButton == ButtonState.Pressed && mouseCollisionRectangle.Intersects(_buttonCollisionRectangle)) _clickReady = true;
+
+
+                if (mouseState.LeftButton == ButtonState.Released && _clickReady)
+                {
+                    if (mouseCollisionRectangle.Intersects(_buttonCollisionRectangle))
+                    {
+                        // Collision occured, send letter
+                        _postOffice.SendMail(_guid.ToString(), _args);
+
+                        // Un-ready click
+                        _clickReady = false;
+                    }
                 }
             }
+            
         }
     }
 }

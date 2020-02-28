@@ -101,6 +101,9 @@ namespace Brightforest
             var leaderboardManager = new LeaderboardManager();
             var playerMetaDataManager = new PlayerMetaDataManager(_postOffice);
 
+            var moneyManager = new MoneyManager(_postOffice);
+            var statsManager = new StatsManager(_postOffice, moneyManager);
+
             // Register states to the state manager
             _stateManager.RegisterState(new MenuState(buttonFactory));
 
@@ -110,12 +113,18 @@ namespace Brightforest
             _stateManager.RegisterState(new LeaderboardState(buttonFactory, textFactory, leaderboardManager));
             _stateManager.RegisterState(new ExitState(this));
 
-            _stateManager.RegisterState(new PlayState(squirrelFactory, gateLevel, GraphicsDevice.PresentationParameters.Bounds, upgradeBar, stone));
+            var playState = new PlayState(_postOffice, squirrelFactory, buttonFactory, textFactory, statsManager, moneyManager, gateLevel,
+                GraphicsDevice.PresentationParameters.Bounds, upgradeBar, stone);
+
+            _stateManager.RegisterState(playState);
 
             // Register clients to the post office
             _postOffice.RegisterClient((ILetterbox)_stateManager, "StateManager");
             _postOffice.RegisterClient((ILetterbox) playerMetaDataManager, playerMetaDataManager.LetterboxName);
             _postOffice.RegisterClient((ILetterbox) nameInputState, nameInputState.StateRegisterName);
+            _postOffice.RegisterClient((ILetterbox) statsManager, statsManager.LetterboxName);
+            _postOffice.RegisterClient((ILetterbox) playState, playState.LetterboxName);
+            _postOffice.RegisterClient((ILetterbox) moneyManager, moneyManager.LetterboxName);
 
             // Set the initial state to the menu
             _postOffice.SendMail("Null",
