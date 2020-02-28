@@ -17,6 +17,7 @@ namespace Brightforest.States
 
         public ExitState(Game1 game)
         {
+            // get instance of game so can exit
             StateRegisterName = "Exit";
             _game = game;
         }

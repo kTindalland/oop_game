@@ -17,6 +17,7 @@ namespace Brightforest.Sprites
 
         private int _health;
 
+        // Public face to remaining health
         public int Health
         {
             get { return _health; }
@@ -30,13 +31,14 @@ namespace Brightforest.Sprites
 
         public void Reset()
         {
-            _health = -10;
+            _health = 500;
         }
 
         public void LetterBox(string returnAddress, PostOfficeEventArgs args)
         {
             switch (args.MessageName)
             {
+                // Take health off the gate
                 case "DamageHealth":
 
                     var damage = BitConverter.ToInt32(args.Data, 0);

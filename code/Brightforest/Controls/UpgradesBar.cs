@@ -24,6 +24,7 @@ namespace Brightforest.Controls
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Draw a coloured rectangle. :)
             spriteBatch.Draw(_texture, _position, _bounds, Color.White);
         }
     }

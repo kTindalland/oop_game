@@ -16,21 +16,26 @@ namespace Brightforest.Managers
 
         public LeaderboardManager()
         {
-            var filepath = @"C:\Users\kaiti\source\repos\oop_game\data\leaderboard.xml";
+            var filepath = @"C:\Users\kaiti\source\repos\oop_game\data\leaderboard.xml"; // TODO: MAKE FILEPATH RELATIVE
 
+            // Handle the xml stuff pls ty
             _xmlHandler = new XML_Handler<Leaderboard>(filepath);
 
+            // Check if the file exists or not
             if (!File.Exists(filepath))
             {
+                // If not, create one and put the leaderboard in it
                 _leaderboard = new Leaderboard();
                 _xmlHandler.Serialise(_leaderboard);
             }
             else
             {
+                // if there is, get the leaderboard
                 _leaderboard = _xmlHandler.Deserialise();
             }
         }
 
+        // Add a new score to the leaderboard
         public void AddScore(string name, long score)
         {
             _leaderboard.Scores.Add(new Score()
@@ -42,11 +47,13 @@ namespace Brightforest.Managers
             _xmlHandler.Serialise(_leaderboard);
         }
 
+        // Self explanatory
         public List<Score> GetAllScores()
         {
             return _leaderboard.Scores;
         }
 
+        // get and sort the top ten scores.
         public List<Score> GetTopTenScores()
         {
             var allScores = _leaderboard.Scores;

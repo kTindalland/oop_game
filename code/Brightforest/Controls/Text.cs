@@ -17,19 +17,21 @@ namespace Brightforest.Controls
         private Color _color;
         private readonly SpriteFont _font;
        
-
+        // The actual text
         public string DisplayText
         {
             get { return _displayText; }
             set { _displayText = value; }
         }
 
+        // Top left of text
         public Vector2 Position
         {
             get { return _position; }
             set { _position = value; }
         }
 
+        // Text color, most often black
         public Color Color
         {
             get { return _color; }
@@ -42,6 +44,8 @@ namespace Brightforest.Controls
             DisplayText = displayText;
             _font = font;
             _position = position;
+
+            // Default colour is black
             _color = Color.Black;
         }
 
@@ -55,6 +59,7 @@ namespace Brightforest.Controls
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Draw the string
             spriteBatch.DrawString(_font, _displayText, _position, Color.Black);
         }
     }

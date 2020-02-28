@@ -24,12 +24,14 @@ namespace Brightforest.Managers
             _postOffice = postOffice;
             _postAddress = "StateManager";
 
+            // A dictionary of all states
             _allStates = new Dictionary<string, IState>();
         }
 
         public IState GetActiveState()
         {
-            throw new NotImplementedException();
+            // Returns the currently active state
+            return _currentActiveState;
         }
 
         public void LetterBox(string returnAddress, PostOfficeEventArgs args)
@@ -38,6 +40,7 @@ namespace Brightforest.Managers
 
             switch (args.MessageName)
             {
+                // Change the currently active state
                 case "ChangeState":
 
                     newState = Encoding.ASCII.GetString(args.Data);
@@ -46,6 +49,7 @@ namespace Brightforest.Managers
 
                     break;
 
+                // Set the initial state - change state without calling any stops and cleanups
                 case "SetInitialState":
 
                     newState = Encoding.ASCII.GetString(args.Data);
@@ -56,12 +60,14 @@ namespace Brightforest.Managers
             }
         }
 
+        // Change the state
         private void ChangeState(string newState, string returnAddress)
         {
             var containsKey = _allStates.Keys.Contains(newState);
 
             if (!containsKey)
             {
+                // If the state isn't registered, then kick out the error to the error letterbox
                 var postOfficeArgs = new PostOfficeEventArgs()
                 {
                     SendAddress = returnAddress,
@@ -73,12 +79,19 @@ namespace Brightforest.Managers
                 return;
             }
 
+            // Stop the state
             StopCurrentState();
+
+            // Cleanup the state
             CleanupCurrentState();
 
+            // Change the state
             _currentActiveState = _allStates[newState];
             
+            // Initialise the state
             InitialiseCurrentState();
+
+            // Start the state
             StartCurrentState();
         }
 
@@ -112,12 +125,14 @@ namespace Brightforest.Managers
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Call draw method of current state
             if (_currentActiveState == null) return;
             _currentActiveState.Draw(spriteBatch);
         }
 
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
+            // Call update method of current state
             if (_currentActiveState == null) return;
             _currentActiveState.Update(mouseState, keyboardState);
         }

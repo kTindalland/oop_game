@@ -8,6 +8,7 @@ namespace Brightforest.Schema
 {
     public struct Score
     {
+        // Individual player info for leaderboard
         public string Name { get; set; }
         public long PlayerScore { get; set; }
     }

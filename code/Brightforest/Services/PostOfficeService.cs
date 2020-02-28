@@ -12,6 +12,8 @@ namespace Brightforest.Services
     {
         private Dictionary<string, ILetterbox> _clients;
 
+
+        // Provides messaging between clients
         public PostOfficeService()
         {
             _clients = new Dictionary<string, ILetterbox>();
@@ -19,20 +21,25 @@ namespace Brightforest.Services
 
         public bool RegisterClient(ILetterbox client, string address)
         {
+            // Check if key already exists
             var keyAlreadyThere = _clients.Keys.Contains(address);
 
+            // Return false if it is
             if (keyAlreadyThere)
             {
                 return false;
             }
 
+            // Otherwise add it to the clientel
             _clients[address] = client;
 
             return true;
         }
 
+        // Call letterbox function and pass any messages through
         public bool SendMail(string returnAddress, PostOfficeEventArgs args)
         {
+            // Validate key is there
             var keyThere = _clients.Keys.Contains(args.SendAddress);
 
             if (!keyThere)

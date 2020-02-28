@@ -42,6 +42,7 @@ namespace Brightforest.States
 
             #region Text Stuff
 
+            // Lines of flavour text
             var lines = new List<string>()
             {
                 "The castle is under attack!",
@@ -52,6 +53,7 @@ namespace Brightforest.States
                 "Good luck."
             };
 
+            // Get the flavour text as Text objects
             _flavourText = GenerateTexts(lines);
 
             #endregion
@@ -59,14 +61,18 @@ namespace Brightforest.States
 
         private List<Text> GenerateTexts(List<string> lines)
         {
+            // Create the array
             var textArray = lines.ToArray();
 
+            // Get the starting coords
             var startY = 20;
             var x = 20;
 
+            // The results list
             var result = new List<Text>();
             for (int i = 0; i < textArray.Length; i++)
             {
+                // Fill it in
                 result.Add(_textFactory.GenerateText(textArray[i], x, startY + (i * 50)));
             }
 
@@ -80,11 +86,13 @@ namespace Brightforest.States
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Draw all the text
             foreach (var text in _flavourText)
             {
                 text.Draw(spriteBatch);
             }
 
+            // Draw the continue button
             _continueButton.Draw(spriteBatch);
         }
 
@@ -105,6 +113,7 @@ namespace Brightforest.States
 
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
+            // Update the continue button
             _continueButton.Update(mouseState, keyboardState);
         }
     }

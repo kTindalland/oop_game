@@ -9,6 +9,7 @@ namespace Brightforest.Sprites.Structs
 {
     public struct MoveData
     {
+        // Data about a sprite's movement
         public bool IsMoving { get; set; }
         public int Speed { get; set; } // Every 1 speed is 10 pixels / second
         public Vector2 MoveDestination { get; set; }

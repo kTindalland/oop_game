@@ -36,7 +36,7 @@ namespace Brightforest.Helpers
 
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
-            
+            // Get all the keys that're pressed down
             var pressedKeys = keyboardState.GetPressedKeys();
 
             if (pressedKeys.Length > 0) // If keydown

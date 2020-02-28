@@ -18,6 +18,7 @@ namespace Brightforest.Factories
             _font = font;
         }
 
+        // Create new texts so I don't have to
         public Text GenerateText(string text, int x, int y)
         {
             return new Text(_font, text, x, y);

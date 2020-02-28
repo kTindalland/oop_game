@@ -29,16 +29,19 @@ namespace Brightforest.Controls
 
         private bool _canUpdate;
 
+        // Can this button update
         public bool CanUpdate
         {
             set { _canUpdate = value; }
         }
 
+        // What is the width of this button
         public int Width
         {
             get { return _buttonSprite.Width; }
         }
 
+        // Top left corner of button
         public Vector2 Position
         {
             get { return _position; }
@@ -113,6 +116,7 @@ namespace Brightforest.Controls
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // If it's disabled, tint it
             var tint = _canUpdate ? Color.White : Color.Gray;
 
             spriteBatch.Draw(_buttonSprite, _position, tint);
@@ -123,6 +127,7 @@ namespace Brightforest.Controls
         {
             switch (args.MessageName)
             {
+                // Disable the button if requested
                 case "Disable":
                     _canUpdate = false;
                     break;

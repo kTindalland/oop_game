@@ -19,17 +19,20 @@ namespace Brightforest.Sprites
         private Vector2 _position;
         private Texture2D _texture;
 
+        // If the sprite is moving
         public bool IsMoving
         {
             get { return _moveData.IsMoving; }
         }
 
+        // The sprites position
         public Vector2 Position
         {
             get { return _position; }
             set { _position = value; }
         }
 
+        // the sprites speed
         public int Speed
         {
             get { return _moveData.Speed; }
@@ -54,6 +57,7 @@ namespace Brightforest.Sprites
 
         public void MoveTo(Vector2 dest)
         {
+            // Start the sprite moving
             _moveData.IsMoving = true;
             _moveData.MoveDestination = dest;
         }

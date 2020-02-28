@@ -63,6 +63,7 @@ namespace Brightforest.States
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Draw the buttons
             foreach (var button in _buttons)
             {
                 button.Draw(spriteBatch);
@@ -86,6 +87,7 @@ namespace Brightforest.States
 
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
+            // Update the buttons
             foreach (var button in _buttons)
             {
                 button.Update(mouseState, keyboardState);

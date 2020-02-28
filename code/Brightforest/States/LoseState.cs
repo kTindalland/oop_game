@@ -44,6 +44,7 @@ namespace Brightforest.States
 
             #region Button Stuff
 
+            // Menu button stuff
             var menuArgs = new PostOfficeEventArgs()
             {
                 SendAddress = "StateManager",
@@ -62,9 +63,11 @@ namespace Brightforest.States
             // Create loads of text objects because it's a pain
             var textArray = lines.ToArray();
 
+            // Offsets
             var startY = 20;
             var x = 20;
 
+            // Add all the results
             var result = new List<Text>();
             for (int i = 0; i < textArray.Length; i++)
             {
@@ -86,8 +89,10 @@ namespace Brightforest.States
 
             allEntries = allEntries.OrderByDescending(r => r.PlayerScore).ToList();
 
+            // get the current players record
             var thisRecord = allEntries.Where(r => r.PlayerScore == _playerScore && r.Name == _playername).ToList();
 
+            // Get the position
             int position;
             if (thisRecord.Count > 0)
             {
@@ -98,6 +103,7 @@ namespace Brightforest.States
                 position = -1;
             }
 
+            // All the lines
             var lines = new List<string>()
             {
                 "You Lose!",
@@ -106,8 +112,10 @@ namespace Brightforest.States
                 $"You came {position} position on our leaderboard."
             };
 
+            // Generate the text objects
             var texts = GenerateTexts(lines);
 
+            // Draw the text
             foreach (var text in texts)
             {
                 text.Draw(spriteBatch);
@@ -159,12 +167,14 @@ namespace Brightforest.States
 
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
+            // Check if it hasn't been written already
             if (_playername != "123456" && _ready)
             {
                 _leaderboardManager.AddScore(_playername, _playerScore);
                 _ready = false;
             }
 
+            // Update menu button
             _menuButton.Update(mouseState, keyboardState);
 
             return;
@@ -172,6 +182,7 @@ namespace Brightforest.States
 
         public void LetterBox(string returnAddress, PostOfficeEventArgs args)
         {
+            // Sort the messages for this state
             switch (args.MessageName)
             {
                 case "GetPlayerName":

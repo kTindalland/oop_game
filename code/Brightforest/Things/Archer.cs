@@ -25,6 +25,7 @@ namespace Brightforest.Things
 
         public Archer(Vector2 startPosition, Texture2D projectileTexture, StatsManager statsManager)
         {
+            // Set all the fields
             _startPosition = startPosition;
             _projectileTexture = projectileTexture;
             _statsManager = statsManager;
@@ -34,20 +35,24 @@ namespace Brightforest.Things
 
         public void FireArrow(Squirrel enemy)
         {
-            if (_ready)
+            if (_ready) // If archer is ready to fire arrow
             {
+                // Fire a new projectile
                 var newProj = new Projectile(_startPosition, _projectileTexture, enemy);
                 newProj.Speed = 10;
 
                 _projectiles.Add(newProj);
 
+                // New random stuff
                 Random r = new Random((int)DateTime.Now.Ticks);
 
+                // Start a new timer for when archer can fire again
                 var lowerBound = _statsManager.RateOfFire - 500 < 0 ? 50 : _statsManager.RateOfFire - 500;
                 Timer timer = new Timer(r.Next(lowerBound, _statsManager.RateOfFire+500));
                 timer.Elapsed += OnTimer;
                 timer.Start();
 
+                // Not ready anymore
                 _ready = false;
             }
             
@@ -62,19 +67,24 @@ namespace Brightforest.Things
 
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
+            // Clean up projectiles
             var spentProjectiles = new List<Projectile>();
             foreach (var projectile in _projectiles)
             {
+                // Update the projectiles
                 projectile.Update(mouseState, keyboardState);
 
+                // If projectile isn't moving
                 if (!projectile.IsMoving)
                 {
+                    // Inflict some damage
                     Random r = new Random((int)DateTime.Now.Ticks);
                     projectile.Enemy.InflictDamage(r.Next(3 * _statsManager.DamageModifier, 5 * _statsManager.DamageModifier));
                     spentProjectiles.Add(projectile);
                 }
             }
 
+            // Remove the spent projectiles
             foreach (var spentProjectile in spentProjectiles)
             {
                 _projectiles.Remove(spentProjectile);
@@ -83,6 +93,7 @@ namespace Brightforest.Things
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Draw each prijectile
             foreach (var projectile in _projectiles)
             {
                 projectile.Draw(spriteBatch);

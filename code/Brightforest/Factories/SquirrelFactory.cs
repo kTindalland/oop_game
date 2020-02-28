@@ -22,6 +22,7 @@ namespace Brightforest.Factories
 
         public Squirrel GenerateSquirrel(Vector2 position)
         {
+            // Create a new squirrel so I don't have to
             var result = new Squirrel(position, _squirelTexture, _gate);
             return result;
         }

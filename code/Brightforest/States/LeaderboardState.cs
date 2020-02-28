@@ -30,13 +30,16 @@ namespace Brightforest.States
         {
             StateRegisterName = "Leaderboard";
 
+            // Factories and managers
             _buttonFactory = buttonFactory;
             _textFactory = textFactory;
             _leaderboardManager = leaderboardManager;
 
+            // Lists
             _text = new List<Text>();
             _buttons = new List<Button>();
 
+            // Change the state to the menu
             var buttonArgs = new PostOfficeEventArgs()
             {
                 SendAddress = "StateManager",
@@ -49,6 +52,7 @@ namespace Brightforest.States
 
         public bool Cleanup()
         {
+            // Reset all the text
             _text = new List<Text>();
 
             return true;
@@ -56,6 +60,7 @@ namespace Brightforest.States
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Draw all the text and buttons
             foreach (var text in _text)
             {
                 text.Draw(spriteBatch);
@@ -69,16 +74,21 @@ namespace Brightforest.States
 
         public bool Initialise()
         {
+            // Get top ten
             var topTen = _leaderboardManager.GetTopTenScores();
 
+            // Default placements
             var yOffset = 20;
             var xOffset = 30;
             var ySeperation = 40;
 
+            // Go through each and generate the text
             for (int i = 0; i < 10; i++)
             {
+                // Get the score
                 var score = i < topTen.Count ? topTen[i] : new Score() { Name = "", PlayerScore = -1 };
 
+                // Build the strings
                 var stringBuilder = new StringBuilder();
                 stringBuilder.Append($"{i + 1}. {score.Name}".PadRight(20));
 

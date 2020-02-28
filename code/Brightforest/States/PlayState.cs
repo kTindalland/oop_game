@@ -118,6 +118,8 @@ namespace Brightforest.States
             
             #region Text
 
+            // Generate the text objects
+
             _amountOfArchers =
                 _textFactory.GenerateText($"{_archers.Count.ToString()} Archer(s)", 30, _bounds.Height + 55);
 
@@ -159,6 +161,7 @@ namespace Brightforest.States
         {
             spriteBatch.Draw(_background, new Vector2(0,0), _bounds, Color.White);
 
+            // Draw the enemies if in a wave
             if (_inWave)
             {
                 foreach (var squirrel in _enemies)
@@ -167,22 +170,26 @@ namespace Brightforest.States
                 }
             }
 
+            // Draw all the archers
             foreach (var archer in _archers)
             {
                 archer.Draw(spriteBatch);
             }
 
             
-
+            // draw the upgrades bar
             _upgradesBar.Draw(spriteBatch);
 
+            // Draw the upgrades button
             foreach (var upgradeButton in _upgradeButtons)
             {
                 upgradeButton.Draw(spriteBatch);
             }
 
+            // Draw the quit button
             _quitButton.Draw(spriteBatch);
 
+            // Draw all the text stuff
             _rofLevel.Draw(spriteBatch);
             _amountOfArchers.Draw(spriteBatch);
             _damageLevel.Draw(spriteBatch);
@@ -193,6 +200,7 @@ namespace Brightforest.States
 
         public bool Initialise()
         {
+            // Reset all the things
             _archers = new List<Archer>();
 
             AddArcher(); // Add single archer to start
@@ -202,8 +210,10 @@ namespace Brightforest.States
                 upgradeButton.CanUpdate = true;
             }
 
+            // Reset the stats
             _statsManager.Reset();
 
+            // Reset the enemies stuff
             _inWave = true;
             _wave = 0;
             _enemies = new List<Squirrel>();
@@ -217,6 +227,7 @@ namespace Brightforest.States
 
         private void AddArcher()
         {
+            // Add an archer
             var newArcher = new Archer(new Vector2(125, 350), _stone, _statsManager);
             _archers.Add(newArcher);
         }
@@ -233,6 +244,7 @@ namespace Brightforest.States
 
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
+            // Update all the text
             _amountOfArchers.DisplayText = $"{_archers.Count.ToString()} Archer(s)";
             _rofLevel.DisplayText = $"Level {_statsManager.RateOfFireLevel}";
             _damageLevel.DisplayText = $"{_statsManager.DamageModifier}x Damage";
@@ -240,22 +252,26 @@ namespace Brightforest.States
             _waveText.DisplayText = $"Wave {_wave}";
             _gateHealth.DisplayText = $"Gate Health: {_gate.Health}";
 
+            // Update all the upgrade buttons
             foreach (var upgradeButton in _upgradeButtons)
             {
                 upgradeButton.Update(mouseState, keyboardState);
             }
 
+            // Update the quit button
             _quitButton.Update(mouseState, keyboardState);
 
+            // Update each archer
             foreach (var archer in _archers)
             {
                 archer.Update(mouseState, keyboardState);
             }
 
+            // If in a wave
             if (_inWave)
             {
                 
-
+                // Go through all enemies, update, if dead add to list
                 var deadSquirrels = new List<Squirrel>();
                 foreach (var squirrel in _enemies)
                 {
@@ -290,8 +306,10 @@ namespace Brightforest.States
                     _enemies.Remove(deadSquirrel);
                 }
 
+                // If theres enemies
                 if (_enemies.Count > 0)
                 {
+                    // order the squillows
                     var orderedSquirrels = _enemies.OrderBy(r => r.Position.X);
 
                     foreach (var archer in _archers)
@@ -310,7 +328,7 @@ namespace Brightforest.States
                 }
             }
             
-
+            // If all enemies are dead
             if (_enemies.Count == 0)
             {
                 _wave++;
@@ -318,6 +336,7 @@ namespace Brightforest.States
                 GenerateEnemies();
             }
 
+            // If the gate is dead
             if (_gate.Health <= 0)
             {
                 var changeStateArgs = new PostOfficeEventArgs()
@@ -330,11 +349,13 @@ namespace Brightforest.States
             }
         }
 
+        // Generate the enemies
         private void GenerateEnemies()
         {
             var rand = new Random((int)DateTime.Now.Ticks);
             _enemies = new List<Squirrel>();
 
+            // Use fibbanacii numbers for wave amounts
             for (int i = 0; i < Fibbanacii(_wave + 2); i++)
             {
                 int dist = rand.Next(-10, 11);
@@ -347,6 +368,7 @@ namespace Brightforest.States
                 _enemies.Add(squirrel);
             }
 
+            // Set timer for when round to start
             Timer waveTimer = new Timer();
             waveTimer.Interval = 5000;
             waveTimer.Elapsed += OnTimer;

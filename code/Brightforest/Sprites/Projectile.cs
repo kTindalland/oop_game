@@ -21,6 +21,7 @@ namespace Brightforest.Sprites
         public Projectile(Vector2 position, Texture2D texture, Squirrel enemy) : base(position, texture)
         {
             _enemy = enemy;
+            // Immediately move to enemies position
             base.MoveTo(_enemy.Position);
         }
 
@@ -28,9 +29,11 @@ namespace Brightforest.Sprites
         {
             if (IsMoving)
             {
+                // If it's still moving, then change the the enemies new position as it's likely moved.
                 base.MoveTo(_enemy.Position);
             }
 
+            // Take the base update.
             base.Update(mouseState, keyboardState);
         }
     }

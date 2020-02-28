@@ -15,8 +15,11 @@ namespace Brightforest.Sprites
         private int _health;
         private bool _alive;
         private readonly Gate _gate;
+
+        // Ready to attack
         private bool _ready;
 
+        // If the squirrel is alive
         public bool Alive
         {
             get { return _alive; }
@@ -24,6 +27,7 @@ namespace Brightforest.Sprites
 
         public Squirrel(Vector2 position, Texture2D sprite, Gate gate) : base(position, sprite)
         {
+            // Default values
             _health = 10;
             _alive = true;
             _gate = gate;
@@ -32,13 +36,14 @@ namespace Brightforest.Sprites
 
         public void InflictDamage(int amount)
         {
+            // Giving the squirrel damage
             _health -= amount;
             _alive = _health > 0;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_alive)
+            if (_alive) // If it's alive, draw
             {
                 base.Draw(spriteBatch);
             }
@@ -47,7 +52,7 @@ namespace Brightforest.Sprites
 
         public override void Update(MouseState mouseState, KeyboardState keyboardState)
         {
-            if (_alive)
+            if (_alive) // If it's alive, update
             {
                 base.Update(mouseState, keyboardState);
 
@@ -55,12 +60,15 @@ namespace Brightforest.Sprites
                 {
                     if (_ready)
                     {
+                        // Reduce gate health by the amount
                         _gate.Health -= 15;
 
+                        // Set a timer off for when it can attack again.
                         Timer timer = new Timer(1000);
                         timer.Elapsed += OnTimer;
                         timer.Start();
 
+                        // now not ready to attack.
                         _ready = false;
                     }
                 }
